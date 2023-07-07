@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 
 type PropsProduct = {
-  id: string | number;
+  _id: string | number;
   name: string;
   description?: string;
   price: string | number;
@@ -44,7 +44,7 @@ export default function Home() {
 
         {products.length > 0 ? (
           products?.map((product: PropsProduct) => (
-            <div key={product?.id}>
+            <div key={product?._id}>
               <CardProducts product={product} option="user" />
             </div>
           ))
