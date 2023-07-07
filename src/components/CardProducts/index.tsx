@@ -9,7 +9,7 @@ import ModalAcceptOrReject from "../ModalAcceptOrReject";
 
 type PropsProducts = {
   product?: {
-    id: string | number | undefined;
+    _id: string | number | undefined;
     name: string;
     description?: string;
     price: string | number;
@@ -52,7 +52,7 @@ export default function CardProducts({ product, option }: PropsProducts) {
             )}
             {isOpenModalAcceptOrReject && (
               <ModalAcceptOrReject
-                id={product?.id}
+                id={product?._id}
                 closeModal={setIsOpenModalAcceptOrReject}
               />
             )}
