@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const Container = styled.div`
   width: 305px;
-  height: 221px;
+  height: 300px;
   flex-shrink: 0;
 
   display: flex;
@@ -49,6 +49,8 @@ export const Details = styled.div`
 `;
 
 export const Title = styled.div`
+  width: 100%;
+
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -56,7 +58,7 @@ export const Title = styled.div`
   gap: 2px;
 
   > h1 {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
   }
 
