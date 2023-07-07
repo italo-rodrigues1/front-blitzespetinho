@@ -23,7 +23,9 @@ type PropsModal = {
 export default function Modal({ option, setOpenModal }: PropsModal) {
   const [file, setFile] = useState("");
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+
   const [categoryName, setCategoryName] = useState("");
 
   const { createCategoryOrProduct } = useProducts();
@@ -58,6 +60,11 @@ export default function Modal({ option, setOpenModal }: PropsModal) {
 
           {option === "card" && (
             <>
+              <Inputs
+                type="text"
+                placeholder="Descrição..."
+                onChange={(e: any) => setDescription(e.target.value)}
+              />
               <Inputs
                 type="text"
                 placeholder="Preço..."
@@ -100,6 +107,7 @@ export default function Modal({ option, setOpenModal }: PropsModal) {
                 options: option === "card" ? "product" : "category",
                 item: {
                   name,
+                  description,
                   price,
                   image: file,
                   category: categoryName,

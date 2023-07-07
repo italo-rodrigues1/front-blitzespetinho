@@ -26,7 +26,7 @@ export const Container = styled.div`
 export const Box = styled.div<PropsOption>`
   width: 100%;
   max-width: 400px;
-  height: ${(props) => (props.option === "card" ? "600px" : "500px")};
+  height: ${(props) => (props.option === "card" ? "700px" : "500px")};
 
   display: flex;
   align-items: center;
