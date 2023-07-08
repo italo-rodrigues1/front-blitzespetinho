@@ -27,7 +27,7 @@ const useAuth = () => {
   const handleLogout = async () => {
     localStorage.removeItem("token");
     setAuthenticate(false);
-    navigate("/");
+    window.location.href = "/";
   };
 
   useEffect(() => {
