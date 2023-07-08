@@ -1,11 +1,14 @@
-import { Container, Header, Logo, Main, TitleLogo } from "./styles";
+import { Container, Header, Logo, Logout, Main, TitleLogo } from "./styles";
 import Search from "../../components/Search";
 import MenuCard from "../../components/MenuCard";
 import SirenLogo from "../../assets/siren.svg";
 import Cart from "../../components/Cart";
 import CardProducts from "../../components/CardProducts";
 import { useEffect, useContext } from "react";
-import { ProductsContext, ProductsContextData } from "../../context/productsContext";
+import {
+  ProductsContext,
+  ProductsContextData,
+} from "../../context/productsContext";
 import { AuthContext, AuthContextData } from "../../context";
 
 type PropsProduct = {
@@ -21,7 +24,9 @@ export default function Home() {
     ProductsContext
   ) as ProductsContextData;
 
-  const { authenticate } = useContext(AuthContext) as AuthContextData;
+  const { authenticate, handleLogout } = useContext(
+    AuthContext
+  ) as AuthContextData;
 
   useEffect(() => {
     getProducts();
@@ -37,6 +42,13 @@ export default function Home() {
             <img src={SirenLogo} alt="Siren logo" />
           </TitleLogo>
           <p>Cardápio</p>
+          {authenticate && (
+            <Logout>
+              <button type="button" onClick={handleLogout}>
+                Sair
+              </button>
+            </Logout>
+          )}
         </Logo>
         <Search />
       </Header>

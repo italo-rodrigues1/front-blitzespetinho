@@ -24,7 +24,11 @@ const useAuth = () => {
     }
   };
 
- 
+  const handleLogout = async () => {
+    localStorage.removeItem("token");
+    setAuthenticate(false);
+    navigate("/");
+  };
 
   useEffect(() => {
     if (!authenticate && localStorage.getItem("token")) {
@@ -38,6 +42,7 @@ const useAuth = () => {
     password,
     setPassword,
     handleLogin,
+    handleLogout,
     authenticate,
   };
 };

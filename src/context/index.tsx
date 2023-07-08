@@ -7,6 +7,7 @@ export type AuthContextData = {
   password: string;
   setPassword: (password: string) => void;
   handleLogin: () => void;
+  handleLogout: () => void;
   authenticate: boolean;
 };
 
@@ -19,8 +20,15 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { email, setEmail, password, setPassword, handleLogin, authenticate } =
-    useAuth() as AuthContextData;
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    handleLogin,
+    authenticate,
+    handleLogout,
+  } = useAuth() as AuthContextData;
 
   return (
     <AuthContext.Provider
@@ -30,6 +38,7 @@ export const AuthContextProvider = ({
         password,
         setPassword,
         handleLogin,
+        handleLogout,
         authenticate,
       }}
     >

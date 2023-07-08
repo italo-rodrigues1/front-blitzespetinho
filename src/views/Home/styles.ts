@@ -22,6 +22,26 @@ export const Header = styled.header`
   }
 `;
 
+export const Logout = styled.div`
+  text-align: right;
+  padding-bottom: 8px;
+  height: 50px;
+
+  > button {
+    height: 100%;
+    width: 50px;
+
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    color: rgba(0, 0, 0, 0.81);
+
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+`;
+
 export const TitleLogo = styled.div`
   display: flex;
   align-items: center;
