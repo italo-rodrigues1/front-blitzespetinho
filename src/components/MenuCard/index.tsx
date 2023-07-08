@@ -16,7 +16,7 @@ export default function MenuCard() {
 
   const { authenticate } = useContext(AuthContext) as AuthContextData;
 
-  const { products, setProducts, category, oldProducts } = useContext(
+  const { setProducts, category, oldProducts } = useContext(
     ProductsContext
   ) as ProductsContextData;
 
