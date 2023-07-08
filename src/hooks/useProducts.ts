@@ -21,6 +21,7 @@ export type PropsDelete = {
 
 const useProducts = () => {
   const [products, setProducts] = useState<[]>([]);
+  const [oldProducts, setOldProducts] = useState<[]>([]);
   const [category, setCategory] = useState<[]>([]);
 
   const filteredProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +39,7 @@ const useProducts = () => {
       const res = await api.get("/api/product");
 
       setProducts(res.data);
+      setOldProducts(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -118,6 +120,8 @@ const useProducts = () => {
     createCategoryOrProduct,
     removeProduct,
     removeCategory,
+    oldProducts,
+    setOldProducts,
   };
 };
 

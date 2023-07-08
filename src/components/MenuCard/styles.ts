@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 type PropsBorder = {
-  border?: string;
+  isSelected?: boolean;
 };
 
 export const Container = styled.div`
@@ -20,8 +20,8 @@ export const Box = styled.div<PropsBorder>`
   background-color: #fff;
   border-radius: 10px;
 
-  border: ${(props) =>
-    props.border === "border" ? "#FFC700 1px solid" : "none"};
+  border: ${({ isSelected }) =>
+    isSelected === true ? "#FFC700 1px solid" : "none"};
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
 

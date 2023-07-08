@@ -3,10 +3,10 @@ import Search from "../../components/Search";
 import MenuCard from "../../components/MenuCard";
 import SirenLogo from "../../assets/siren.svg";
 import Cart from "../../components/Cart";
-import useProducts from "../../hooks/useProducts";
 import CardProducts from "../../components/CardProducts";
-import { useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
+import { useEffect, useContext } from "react";
+import { ProductsContext, ProductsContextData } from "../../context/productsContext";
+import { AuthContext, AuthContextData } from "../../context";
 
 type PropsProduct = {
   _id: string | number;
@@ -17,11 +17,15 @@ type PropsProduct = {
 };
 
 export default function Home() {
-  const { getProducts, products } = useProducts();
-  const { authenticate } = useAuth();
+  const { products, getProducts, getCategory } = useContext(
+    ProductsContext
+  ) as ProductsContextData;
+
+  const { authenticate } = useContext(AuthContext) as AuthContextData;
 
   useEffect(() => {
     getProducts();
+    getCategory();
   }, []);
 
   return (

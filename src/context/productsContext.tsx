@@ -12,6 +12,8 @@ export type ProductsContextData = {
   category: [];
   setCategory: (products: []) => void;
   createCategoryOrProduct: (productsOrCategory: PropsCreate) => void;
+  oldProducts: [];
+  setOldProducts: (products: []) => void;
 };
 
 export const ProductsContext = createContext<ProductsContextData | undefined>(
@@ -34,6 +36,8 @@ export const ProductsContextProvider = ({
     category,
     setCategory,
     createCategoryOrProduct,
+    oldProducts,
+    setOldProducts,
   } = useProducts() as ProductsContextData;
 
   return (
@@ -49,6 +53,8 @@ export const ProductsContextProvider = ({
         category,
         setCategory,
         createCategoryOrProduct,
+        oldProducts,
+        setOldProducts,
       }}
     >
       {children}

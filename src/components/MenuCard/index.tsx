@@ -1,19 +1,28 @@
 import { Box, Container } from "./styles";
 import { AiFillPlusCircle } from "react-icons/ai";
-import useAuth from "../../hooks/useAuth";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import Modal from "../Modal";
-import useProducts from "../../hooks/useProducts";
 import { toast } from "react-toastify";
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
+import {
+  ProductsContext,
+  ProductsContextData,
+} from "../../context/productsContext";
+import { AuthContext, AuthContextData } from "../../context";
 
 export default function MenuCard() {
   const [openModal, setOpenModal] = useState(false);
-  const [nameBox, setNameBox] = useState("");
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const { authenticate } = useContext(AuthContext) as AuthContextData;
+
+  const { products, setProducts, category, oldProducts } = useContext(
+    ProductsContext
+  ) as ProductsContextData;
 
   const filterMenu = (value: string) => {
-    const findValue: any = products.filter(
-      (product: any) => product.name === value.toLocaleLowerCase()
+    const findValue: any = oldProducts.filter(
+      (product: any) => product.idCategory == value
     );
 
     if (findValue.length <= 0) {
@@ -23,27 +32,23 @@ export default function MenuCard() {
     setProducts(findValue);
   };
 
-  const { authenticate } = useAuth();
+  const handleClick = (cardIndex: null) => {
+    setSelectedCard(cardIndex);
+  };
 
-  const { products, setProducts, category, getCategory } = useProducts();
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
- 
   return (
     <Container>
       {category.length > 0 &&
         category.map((cate: any) => (
           <Box
             key={cate._id}
-            border={nameBox}
-            onClick={() => (
-              filterMenu(cate), setNameBox(!nameBox ? "border" : "")
-            )}
+            isSelected={selectedCard === cate._id}
+            onClick={() => {
+              filterMenu(cate._id);
+              handleClick(cate._id);
+            }}
           >
-            <img src={cate.image} alt="asd" />
+            <img src={cate.image} alt="icon menu" />
             <p>{capitalizeFirstLetter(cate.name)}</p>
           </Box>
         ))}
