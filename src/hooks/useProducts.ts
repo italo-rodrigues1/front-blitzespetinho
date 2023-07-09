@@ -118,7 +118,7 @@ const useProducts = () => {
   };
 
   const createItemCart = (item: PropsItemCart) => {
-    const getTotal = localStorage.getItem("");
+    // const getTotal = localStorage.getItem("");
 
     if (addProducts.length > 0) {
       const filterEqual = addProducts.filter(
