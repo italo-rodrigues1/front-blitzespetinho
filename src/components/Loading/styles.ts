@@ -14,13 +14,14 @@ export const animloader = keyframes`
     box-shadow: -38px 0 , -14px 0, 14px 0 , 38px -12px;
   }
 `;
+
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: "#00393c3811";
+  background-color: #111;
 `;
 
 export const Loader = styled.div`
