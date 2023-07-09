@@ -28,6 +28,8 @@ export type PropsItemCart = {
 
 const useProducts = () => {
   const [products, setProducts] = useState<[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const [oldProducts, setOldProducts] = useState<[]>([]);
   const [category, setCategory] = useState<[]>([]);
   const [addProducts, setAddProducts] = useState<PropsItemCart[]>([]);
@@ -47,6 +49,7 @@ const useProducts = () => {
   };
 
   const getProducts = async () => {
+    setLoading(true);
     try {
       const res = await api.get("/api/product");
 
@@ -55,6 +58,7 @@ const useProducts = () => {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   const getCategory = async () => {
@@ -181,6 +185,7 @@ const useProducts = () => {
     setAddProducts,
     createItemCart,
     sendProduct,
+    loading,
   };
 };
 

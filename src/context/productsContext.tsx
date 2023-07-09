@@ -22,6 +22,7 @@ export type ProductsContextData = {
   setAddProducts: (addProducts: any) => void;
   createItemCart: (productCart: PropsItemCart) => void;
   sendProduct: () => void;
+  loading: boolean;
 };
 
 export const ProductsContext = createContext<ProductsContextData | undefined>(
@@ -50,6 +51,7 @@ export const ProductsContextProvider = ({
     setAddProducts,
     createItemCart,
     sendProduct,
+    loading,
   } = useProducts() as ProductsContextData;
 
   return (
@@ -71,6 +73,7 @@ export const ProductsContextProvider = ({
         setAddProducts,
         createItemCart,
         sendProduct,
+        loading,
       }}
     >
       {children}
