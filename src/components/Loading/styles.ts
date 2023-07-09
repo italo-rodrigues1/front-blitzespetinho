@@ -18,20 +18,25 @@ export const animloader = keyframes`
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
+
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  
   background-color: #111;
 `;
 
 export const Loader = styled.div`
+  position: relative;
+
   width: 12px;
   height: 12px;
+
   border-radius: 50%;
+  color: #fff;
   display: block;
   margin: 15px auto;
-  position: relative;
-  color: #fff;
-  box-sizing: border-box;
+
   animation: ${animloader} 1s linear infinite alternate;
 `;
