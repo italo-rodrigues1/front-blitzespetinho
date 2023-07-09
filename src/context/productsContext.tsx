@@ -1,5 +1,9 @@
-import { createContext } from "react";
-import useProducts, { PropsCreate, PropsDelete } from "../hooks/useProducts";
+import { createContext, useEffect } from "react";
+import useProducts, {
+  PropsCreate,
+  PropsDelete,
+  PropsItemCart,
+} from "../hooks/useProducts";
 
 export type ProductsContextData = {
   products: [];
@@ -14,6 +18,9 @@ export type ProductsContextData = {
   createCategoryOrProduct: (productsOrCategory: PropsCreate) => void;
   oldProducts: [];
   setOldProducts: (products: []) => void;
+  addProducts: any;
+  setAddProducts: (products: any) => void;
+  createItemCart: (products: PropsItemCart) => void;
 };
 
 export const ProductsContext = createContext<ProductsContextData | undefined>(
@@ -38,6 +45,9 @@ export const ProductsContextProvider = ({
     createCategoryOrProduct,
     oldProducts,
     setOldProducts,
+    addProducts,
+    setAddProducts,
+    createItemCart,
   } = useProducts() as ProductsContextData;
 
   return (
@@ -55,6 +65,9 @@ export const ProductsContextProvider = ({
         createCategoryOrProduct,
         oldProducts,
         setOldProducts,
+        addProducts,
+        setAddProducts,
+        createItemCart,
       }}
     >
       {children}

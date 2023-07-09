@@ -1,11 +1,15 @@
 import { Container, Details, Title } from "./styles";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Modal from "../Modal";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
-import useAuth from "../../hooks/useAuth";
-
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
 import ModalAcceptOrReject from "../ModalAcceptOrReject";
+import {
+  ProductsContext,
+  ProductsContextData,
+} from "../../context/productsContext";
+import { AuthContext, AuthContextData } from "../../context";
+import { PropsItemCart } from "../../hooks/useProducts";
 
 type PropsProducts = {
   product?: {
@@ -23,7 +27,8 @@ export default function CardProducts({ product, option }: PropsProducts) {
   const [isOpenModalAcceptOrReject, setIsOpenModalAcceptOrReject] =
     useState(false);
 
-  const { authenticate } = useAuth();
+  const { authenticate } = useContext(AuthContext) as AuthContextData
+  const { createItemCart } = useContext(ProductsContext) as ProductsContextData;
 
   return (
     <Container>
@@ -48,7 +53,10 @@ export default function CardProducts({ product, option }: PropsProducts) {
                 onClick={() => setIsOpenModalAcceptOrReject(true)}
               />
             ) : (
-              <AiFillPlusCircle color="FFC700" />
+              <AiFillPlusCircle
+                color="FFC700"
+                onClick={() => createItemCart(product as PropsItemCart)}
+              />
             )}
             {isOpenModalAcceptOrReject && (
               <ModalAcceptOrReject

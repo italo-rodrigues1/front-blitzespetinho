@@ -93,6 +93,7 @@ export const BoxLeft = styled.div`
 
 export const ImageBox = styled.div`
   height: 95%;
+  width: 150px;
   border-radius: 5px;
   > img {
     height: 100%;

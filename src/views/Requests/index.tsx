@@ -21,13 +21,17 @@ import {
   BsFillArrowUpCircleFill,
   BsFillArrowDownCircleFill,
 } from "react-icons/bs";
-
-import TestImg from "../../assets/imgTest.svg";
+import { useContext } from "react";
+import {
+  ProductsContext,
+  ProductsContextData,
+} from "../../context/productsContext";
 
 export default function Request() {
-  const total = 0;
-  const card = true;
   const number = 1;
+
+  const { addProducts } = useContext(ProductsContext) as ProductsContextData;
+
   return (
     <Container>
       <Box>
@@ -36,35 +40,36 @@ export default function Request() {
           <span>Voltar</span>
         </ButtonBack>
         <h1> Meus pedidos</h1>
-        {card ? (
-          <BoxCard>
-            <Card>
-              <BoxLeft>
-                <ImageBox>
-                  <img src={TestImg} alt="" />
-                </ImageBox>
-                <Details>
-                  <Title>Salsichão </Title>
-                  <Price>
-                    R<span>$</span> 5,00
-                  </Price>
-                </Details>
-              </BoxLeft>
-              <QuantityProduct>
-                <BsFillArrowUpCircleFill color="FFC700" cursor="pointer" />
-                {number}
-                <BsFillArrowDownCircleFill color="FFC700" cursor="pointer" />
-              </QuantityProduct>
-            </Card>
-            
-          </BoxCard>
-        ) : (
-          <p>Nenhum produto selecionado ainda...</p>
-        )}
+        <BoxCard>
+          {addProducts && addProducts.length > 0 ? (
+            addProducts.map((addProduct: any) => (
+              <Card key={addProduct._id}>
+                <BoxLeft>
+                  <ImageBox>
+                    <img src={addProduct.image} alt="" />
+                  </ImageBox>
+                  <Details>
+                    <Title>{addProduct.name}</Title>
+                    <Price>
+                      R<span>$</span> {addProduct.price}
+                    </Price>
+                  </Details>
+                </BoxLeft>
+                <QuantityProduct>
+                  <BsFillArrowUpCircleFill color="FFC700" cursor="pointer" />
+                  {number}
+                  <BsFillArrowDownCircleFill color="FFC700" cursor="pointer" />
+                </QuantityProduct>
+              </Card>
+            ))
+          ) : (
+            <p>Nenhum produto selecionado ainda...</p>
+          )}
+        </BoxCard>
 
         <SendRequest>
           <PriceTotal>
-            Total: <span>{total}</span>
+            Total: R<span>$</span> <p>{addProducts.total}</p>
           </PriceTotal>
           <BoxButton>
             <ButtonSend onClick={() => toast.success("asdasd")}>

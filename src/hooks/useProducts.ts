@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../services/api";
 import { toast } from "react-toastify";
 
@@ -19,10 +19,18 @@ export type PropsDelete = {
   closeModal: (close: boolean) => void;
 };
 
+export type PropsItemCart = {
+  _id: string | number | undefined;
+  name: string;
+  image: string;
+  price: string | number;
+};
+
 const useProducts = () => {
   const [products, setProducts] = useState<[]>([]);
   const [oldProducts, setOldProducts] = useState<[]>([]);
   const [category, setCategory] = useState<[]>([]);
+  const [addProducts, setAddProducts] = useState<PropsItemCart[]>([]);
 
   const filteredProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -109,6 +117,28 @@ const useProducts = () => {
     }
   };
 
+  const createItemCart = (item: PropsItemCart) => {
+    const getTotal = localStorage.getItem("");
+
+    if (addProducts.length > 0) {
+      const filterEqual = addProducts.filter(
+        (product: any) => product._id == item._id
+      );
+      if (filterEqual.length > 0) {
+        return;
+      }
+    }
+
+    localStorage.setItem("item", JSON.stringify([...addProducts, item]));
+    setAddProducts([...addProducts, item]);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("item") && addProducts.length <= 0) {
+      setAddProducts(JSON.parse(localStorage.getItem("item") as string));
+    }
+  }, [addProducts]);
+
   return {
     products,
     setProducts,
@@ -122,6 +152,9 @@ const useProducts = () => {
     removeCategory,
     oldProducts,
     setOldProducts,
+    addProducts,
+    setAddProducts,
+    createItemCart,
   };
 };
 
