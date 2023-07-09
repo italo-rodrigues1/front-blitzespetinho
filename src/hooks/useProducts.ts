@@ -23,7 +23,7 @@ export type PropsItemCart = {
   _id: string | number | undefined;
   name: string;
   image: string;
-  price: string | number;
+  price: string;
 };
 
 const useProducts = () => {
@@ -33,13 +33,17 @@ const useProducts = () => {
   const [addProducts, setAddProducts] = useState<PropsItemCart[]>([]);
 
   const filteredProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updateProduct = [...products];
     const { value } = e.target;
 
-    const newSearchProducts = products.filter((product) => {
-      product === value;
-    });
-
-    setProducts(newSearchProducts as []);
+    if (value !== "") {
+      const results = updateProduct.filter((product: any) => {
+        return product.name.toLowerCase().startsWith(value.toLowerCase());
+      });
+      setProducts(results as []);
+    } else {
+      setProducts(oldProducts);
+    }
   };
 
   const getProducts = async () => {
@@ -118,8 +122,6 @@ const useProducts = () => {
   };
 
   const createItemCart = (item: PropsItemCart) => {
-    // const getTotal = localStorage.getItem("");
-
     if (addProducts.length > 0) {
       const filterEqual = addProducts.filter(
         (product: any) => product._id == item._id
@@ -129,8 +131,31 @@ const useProducts = () => {
       }
     }
 
+    const countPrice: any = parseFloat(item.price.replace(",", "."));
+    let totalLocal: string | number | null = localStorage.getItem("total");
+
+    if (totalLocal) {
+      totalLocal = parseFloat(totalLocal.replace(",", "."));
+
+      localStorage.setItem("total", totalLocal + countPrice);
+    } else {
+      localStorage.setItem("total", item.price.replace(",", "."));
+    }
+
     localStorage.setItem("item", JSON.stringify([...addProducts, item]));
+
     setAddProducts([...addProducts, item]);
+  };
+
+  const sendProduct = () => {
+    try {
+      localStorage.removeItem("item");
+      localStorage.removeItem("total");
+      window.location.href = "/";
+      // const res = api.post("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -155,6 +180,7 @@ const useProducts = () => {
     addProducts,
     setAddProducts,
     createItemCart,
+    sendProduct,
   };
 };
 

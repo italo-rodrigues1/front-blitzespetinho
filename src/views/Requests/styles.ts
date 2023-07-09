@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 export const Container = styled.div`
   position: relative;
 
-  height: 100vh;
   width: 100%;
 
   display: flex;
@@ -16,7 +15,8 @@ export const Container = styled.div`
 `;
 
 export const Box = styled.div`
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
   width: 100%;
   max-width: 500px;
 
@@ -29,7 +29,7 @@ export const Box = styled.div`
 
   > h1 {
     position: absolute;
-    top: 130px;
+    top: 116px;
   }
 `;
 
@@ -55,18 +55,14 @@ export const ButtonBack = styled(Link)`
 `;
 export const BoxCard = styled.div`
   height: auto;
-  max-height: 500px;
   width: 100%;
-
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 10px;
 
-  overflow: auto;
-
-  margin-top: 24px;
+  margin: 24px 0;
 `;
 
 export const Card = styled.div`

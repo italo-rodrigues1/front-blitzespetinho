@@ -1,9 +1,15 @@
-import useProducts from "../../hooks/useProducts";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { Label } from "./styles";
+import { useContext } from "react";
+import {
+  ProductsContext,
+  ProductsContextData,
+} from "../../context/productsContext";
 
 export default function Search() {
-  const { filteredProducts } = useProducts();
+  const { filteredProducts } = useContext(
+    ProductsContext
+  ) as ProductsContextData;
 
   return (
     <Label>

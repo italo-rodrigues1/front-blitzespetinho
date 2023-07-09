@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import {
   Box,
   BoxButton,
@@ -28,9 +27,11 @@ import {
 } from "../../context/productsContext";
 
 export default function Request() {
-  const number = 1;
+  const priceTotal = localStorage.getItem("total");
 
-  const { addProducts } = useContext(ProductsContext) as ProductsContextData;
+  const { addProducts, sendProduct } = useContext(
+    ProductsContext
+  ) as ProductsContextData;
 
   return (
     <Container>
@@ -39,7 +40,6 @@ export default function Request() {
           <MdKeyboardArrowLeft color="FFC700" />
           <span>Voltar</span>
         </ButtonBack>
-        <h1> Meus pedidos</h1>
         <BoxCard>
           {addProducts && addProducts.length > 0 ? (
             addProducts.map((addProduct: any) => (
@@ -57,7 +57,7 @@ export default function Request() {
                 </BoxLeft>
                 <QuantityProduct>
                   <BsFillArrowUpCircleFill color="FFC700" cursor="pointer" />
-                  {number}
+                  1
                   <BsFillArrowDownCircleFill color="FFC700" cursor="pointer" />
                 </QuantityProduct>
               </Card>
@@ -69,12 +69,10 @@ export default function Request() {
 
         <SendRequest>
           <PriceTotal>
-            Total: R<span>$</span> <p>{addProducts.total}</p>
+            Total: R<span>$</span> <span>{priceTotal || 0}</span>
           </PriceTotal>
           <BoxButton>
-            <ButtonSend onClick={() => toast.success("asdasd")}>
-              Fazer Pedido
-            </ButtonSend>
+            <ButtonSend onClick={sendProduct}>Fazer Pedido</ButtonSend>
           </BoxButton>
         </SendRequest>
       </Box>

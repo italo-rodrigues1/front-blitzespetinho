@@ -8,7 +8,7 @@ import useProducts, {
 export type ProductsContextData = {
   products: [];
   setProducts: (products: []) => void;
-  filteredProducts: any;
+  filteredProducts: (e: React.ChangeEvent<HTMLInputElement>) => void;
   getProducts: () => void;
   getCategory: () => void;
   removeProduct: ({ id, closeModal }: PropsDelete) => void;
@@ -19,8 +19,9 @@ export type ProductsContextData = {
   oldProducts: [];
   setOldProducts: (products: []) => void;
   addProducts: any;
-  setAddProducts: (products: any) => void;
-  createItemCart: (products: PropsItemCart) => void;
+  setAddProducts: (addProducts: any) => void;
+  createItemCart: (productCart: PropsItemCart) => void;
+  sendProduct: () => void;
 };
 
 export const ProductsContext = createContext<ProductsContextData | undefined>(
@@ -48,6 +49,7 @@ export const ProductsContextProvider = ({
     addProducts,
     setAddProducts,
     createItemCart,
+    sendProduct,
   } = useProducts() as ProductsContextData;
 
   return (
@@ -68,6 +70,7 @@ export const ProductsContextProvider = ({
         addProducts,
         setAddProducts,
         createItemCart,
+        sendProduct,
       }}
     >
       {children}
