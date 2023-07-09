@@ -52,13 +52,12 @@ const useProducts = () => {
     setLoading(true);
     try {
       const res = await api.get("/api/product");
-
+      setLoading(false);
       setProducts(res.data);
       setOldProducts(res.data);
     } catch (err) {
       console.log(err);
     }
-    setLoading(false);
   };
 
   const getCategory = async () => {

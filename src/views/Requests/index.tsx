@@ -25,18 +25,15 @@ import {
   ProductsContext,
   ProductsContextData,
 } from "../../context/productsContext";
-import Loading from "../../components/Loading";
 
 export default function Request() {
   const priceTotal = localStorage.getItem("total");
 
-  const { addProducts, sendProduct, loading } = useContext(
+  const { addProducts, sendProduct } = useContext(
     ProductsContext
   ) as ProductsContextData;
 
-  return loading ? (
-    <Loading />
-  ) : (
+  return (
     <Container>
       <Box>
         <ButtonBack to="/">

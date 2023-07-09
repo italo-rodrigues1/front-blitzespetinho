@@ -10,6 +10,7 @@ import {
   ProductsContextData,
 } from "../../context/productsContext";
 import { AuthContext, AuthContextData } from "../../context";
+import Loading from "../../components/Loading";
 
 type PropsProduct = {
   _id: string | number;
@@ -20,7 +21,7 @@ type PropsProduct = {
 };
 
 export default function Home() {
-  const { products, getProducts, getCategory } = useContext(
+  const { products, getProducts, getCategory, loading } = useContext(
     ProductsContext
   ) as ProductsContextData;
 
@@ -33,7 +34,9 @@ export default function Home() {
     getCategory();
   }, []);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Container>
       <Header>
         <Logo>
