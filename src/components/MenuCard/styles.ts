@@ -21,7 +21,7 @@ export const Box = styled.div<PropsBorder>`
   border-radius: 10px;
 
   border: ${({ isSelected }) =>
-    isSelected === true ? "#FFC700 1px solid" : "none"};
+    isSelected === true ? "#FFC700 2px solid" : "none"};
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
 

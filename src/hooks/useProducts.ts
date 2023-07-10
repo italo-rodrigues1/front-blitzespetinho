@@ -135,7 +135,7 @@ const useProducts = () => {
   const createItemCart = (item: PropsItemCart) => {
     if (addProducts.length > 0) {
       const filterEqual = addProducts.filter(
-        (product: any) => product._id == item._id
+        (product) => product._id == item._id
       );
       if (filterEqual.length > 0) {
         return;
@@ -154,8 +154,13 @@ const useProducts = () => {
     }
 
     localStorage.setItem("item", JSON.stringify([...addProducts, item]));
+    localStorage.setItem(
+      "quantityProduct",
+      JSON.stringify([...quantityProduct, { name: item.name, quantity: 1 }])
+    );
 
     setAddProducts([...addProducts, item]);
+    setQuantityProduct([...quantityProduct, { name: item.name, quantity: 1 }]);
   };
 
   const sendProduct = () => {
@@ -192,37 +197,37 @@ const useProducts = () => {
   const quantityProductForPlusOrMinus = ({
     name,
     plusOrMinus,
+    price,
   }: {
     name: string;
     plusOrMinus: string;
+    price: string;
   }) => {
     const getSumOrMinus =
       localStorage.getItem("quantityProduct") &&
       JSON.parse(localStorage.getItem("quantityProduct") as string);
-    console.log("getSumOrMinus", getSumOrMinus);
 
-    if (getSumOrMinus) {
-      getSumOrMinus.filter((item: any) => {
-        if (item.name === name) {
-          if (plusOrMinus === "-") {
+    const getTotal: any =
+      localStorage.getItem("total") && Number(localStorage.getItem("total"));
+
+    getSumOrMinus.filter((item: any) => {
+      if (item.name === name) {
+        if (plusOrMinus === "-") {
+          if (item.quantity > 1) {
             item.quantity -= 1;
-          } else {
-            item.quantity += 1;
+            localStorage.setItem(
+              "total",
+              (getTotal - Number(price.replace(",", "."))) as any
+            );
           }
+        } else {
+          item.quantity += 1;
+          localStorage.setItem("total", +price.replace(",", ".") + getTotal);
         }
-      });
-
-      console.log("New getSumOrMinus", getSumOrMinus);
-
-      localStorage.setItem("quantityProduct", JSON.stringify(getSumOrMinus));
-      setQuantityProduct(getSumOrMinus);
-    } else {
-      localStorage.setItem(
-        "quantityProduct",
-        JSON.stringify([{ name, quantity: 2 }])
-      );
-      setQuantityProduct([...quantityProduct, { name: name, quantity: 2 }]);
-    }
+      }
+    });
+    localStorage.setItem("quantityProduct", JSON.stringify(getSumOrMinus));
+    setQuantityProduct(getSumOrMinus);
   };
 
   useEffect(() => {

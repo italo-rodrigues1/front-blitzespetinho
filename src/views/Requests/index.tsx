@@ -76,12 +76,13 @@ export default function Request() {
                       quantityProductForPlusOrMinus({
                         name: addProduct.name,
                         plusOrMinus: "+",
+                        price: addProduct.price,
                       })
                     }
                   />
                   {quantityProduct.length > 0
-                    ? quantityProduct[index].name === addProduct.name &&
-                      quantityProduct[index].quantity
+                    ? quantityProduct[index]?.name === addProduct?.name &&
+                      quantityProduct[index]?.quantity
                     : 1}
                   <BsFillArrowDownCircleFill
                     color="FFC700"
@@ -90,6 +91,7 @@ export default function Request() {
                       quantityProductForPlusOrMinus({
                         name: addProduct.name,
                         plusOrMinus: "-",
+                        price: addProduct.price,
                       })
                     }
                   />
