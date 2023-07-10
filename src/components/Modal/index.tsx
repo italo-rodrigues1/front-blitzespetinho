@@ -9,11 +9,13 @@ import {
   Inputs,
   Main,
   Preview,
+  Select,
 } from "./styles";
-import { useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import convertImageForBase64 from "../../utils/convertImageFoBase64";
 import { toast } from "react-toastify";
 import useProducts from "../../hooks/useProducts";
+// import { onlyNumber } from "../../utils/regexFormat";
 
 type PropsModal = {
   option: string;
@@ -25,10 +27,11 @@ export default function Modal({ option, setOpenModal }: PropsModal) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [isDisable, setIsDisable] = useState(false);
 
   const [categoryName, setCategoryName] = useState("");
 
-  const { createCategoryOrProduct } = useProducts();
+  const { createCategoryOrProduct, getCategory, category } = useProducts();
 
   const validationFile = async (file: any, error: any) => {
     if (error.length > 0) {
@@ -40,9 +43,29 @@ export default function Modal({ option, setOpenModal }: PropsModal) {
       }
     }
 
-    const base64: string = (await convertImageForBase64(file[0])) as string;
+    const base64 = (await convertImageForBase64(file[0])) as string;
     setFile(base64);
   };
+
+  const customDisable = () => {
+    if (option === "card" && (!name || !file || !price || !categoryName)) {
+      setIsDisable(true);
+      return;
+    }
+    if (option === "menu" && (!name || !file)) {
+      setIsDisable(true);
+      return;
+    }
+    setIsDisable(false);
+  };
+
+  useEffect(() => {
+    customDisable();
+  }, [name, file, description, price, categoryName]);
+
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   return (
     <Container>
@@ -55,7 +78,9 @@ export default function Modal({ option, setOpenModal }: PropsModal) {
           <Inputs
             type="text"
             placeholder="Nome..."
-            onChange={(e: any) => setName(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
           />
 
           {option === "card" && (
@@ -63,18 +88,26 @@ export default function Modal({ option, setOpenModal }: PropsModal) {
               <Inputs
                 type="text"
                 placeholder="Descrição..."
-                onChange={(e: any) => setDescription(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setDescription(e.target.value)
+                }
               />
               <Inputs
                 type="text"
                 placeholder="Preço..."
-                onChange={(e: any) => setPrice(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPrice(e.target.value)
+                }
               />
-              <Inputs
-                type="text"
-                placeholder="Categoria"
-                onChange={(e: any) => setCategoryName(e.target.value)}
-              />
+              <Select onChange={(e: any) => setCategoryName(e.target.value)}>
+                <option value="">--Categoria--</option>
+                {category.length > 0 &&
+                  category.map((value: any) => (
+                    <option key={value?._id} value={value?.name}>
+                      {value?.name}
+                    </option>
+                  ))}
+              </Select>
             </>
           )}
 
@@ -102,15 +135,16 @@ export default function Modal({ option, setOpenModal }: PropsModal) {
 
           <ButtonCreate
             type="submit"
+            disabled={isDisable}
             onClick={() =>
               createCategoryOrProduct({
                 options: option === "card" ? "product" : "category",
                 item: {
-                  name,
+                  name: name.trim(),
                   description,
                   price,
                   image: file,
-                  category: categoryName,
+                  category: categoryName.trim(),
                 },
                 closeModal: setOpenModal,
               })

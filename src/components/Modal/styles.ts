@@ -69,7 +69,7 @@ export const Close = styled.div`
   font-size: 22px;
 `;
 
-export const Main = styled.main`
+export const Main = styled.form`
   height: 100%;
   display: flex;
   align-items: center;
@@ -79,6 +79,21 @@ export const Main = styled.main`
 `;
 
 export const Inputs = styled.input`
+  width: 100%;
+  max-width: 292px;
+  height: 54px;
+
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  color: #111;
+
+  padding: 10px;
+  outline: none;
+`;
+
+export const Select = styled.select`
   width: 100%;
   max-width: 292px;
   height: 54px;
