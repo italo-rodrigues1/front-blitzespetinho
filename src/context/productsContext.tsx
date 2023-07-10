@@ -3,6 +3,7 @@ import useProducts, {
   PropsCreate,
   PropsDelete,
   PropsItemCart,
+  StateTypeQuantity,
 } from "../hooks/useProducts";
 
 export type ProductsContextData = {
@@ -23,6 +24,9 @@ export type ProductsContextData = {
   createItemCart: (productCart: PropsItemCart) => void;
   sendProduct: () => void;
   loading: boolean;
+  quantityProductForPlusOrMinus: (addProducts: any) => void;
+  quantityProduct: StateTypeQuantity[];
+  setQuantityProduct: (quantityProduct: []) => void;
 };
 
 export const ProductsContext = createContext<ProductsContextData | undefined>(
@@ -52,6 +56,9 @@ export const ProductsContextProvider = ({
     createItemCart,
     sendProduct,
     loading,
+    quantityProductForPlusOrMinus,
+    quantityProduct,
+    setQuantityProduct,
   } = useProducts() as ProductsContextData;
 
   return (
@@ -74,6 +81,9 @@ export const ProductsContextProvider = ({
         createItemCart,
         sendProduct,
         loading,
+        quantityProductForPlusOrMinus,
+        quantityProduct,
+        setQuantityProduct,
       }}
     >
       {children}

@@ -26,13 +26,21 @@ export type PropsItemCart = {
   price: string;
 };
 
+export type StateTypeQuantity = {
+  name: string;
+  quantity: string | number;
+};
+
 const useProducts = () => {
   const [products, setProducts] = useState<[]>([]);
-  const [loading, setLoading] = useState(false);
-
+  const [quantityProduct, setQuantityProduct] = useState<StateTypeQuantity[]>(
+    []
+  );
   const [oldProducts, setOldProducts] = useState<[]>([]);
   const [category, setCategory] = useState<[]>([]);
   const [addProducts, setAddProducts] = useState<PropsItemCart[]>([]);
+
+  const [loading, setLoading] = useState(false);
 
   const filteredProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updateProduct = [...products];
@@ -151,13 +159,69 @@ const useProducts = () => {
   };
 
   const sendProduct = () => {
-    try {
+    const totalPrice = localStorage.getItem("total") || 0;
+    const array =
+      localStorage.getItem("quantityProduct") &&
+      JSON.parse(localStorage.getItem("quantityProduct") as string);
+
+    const pedidosFormatados = array.map(
+      (item: { name: string; quantity: string | number }) =>
+        `${item.name} ${item.quantity}x`
+    );
+
+    console.log(pedidosFormatados);
+
+    const resultado = `Meus pedidos: ${pedidosFormatados.join(
+      ", "
+    )}. Total: ${totalPrice}`;
+
+    if (localStorage.getItem("item")) {
+      window.open(
+        `${import.meta.env.VITE_URL_WHATSAPP}/send?phone=${
+          import.meta.env.VITE_PHONE
+        }&text=${resultado}`
+      );
       localStorage.removeItem("item");
       localStorage.removeItem("total");
-      window.location.href = "/";
-      // const res = api.post("");
-    } catch (err) {
-      console.log(err);
+      localStorage.removeItem("quantityProduct");
+    } else {
+      toast.warn("Nenhum produto selecionado...");
+    }
+  };
+
+  const quantityProductForPlusOrMinus = ({
+    name,
+    plusOrMinus,
+  }: {
+    name: string;
+    plusOrMinus: string;
+  }) => {
+    const getSumOrMinus =
+      localStorage.getItem("quantityProduct") &&
+      JSON.parse(localStorage.getItem("quantityProduct") as string);
+    console.log("getSumOrMinus", getSumOrMinus);
+
+    if (getSumOrMinus) {
+      getSumOrMinus.filter((item: any) => {
+        if (item.name === name) {
+          if (plusOrMinus === "-") {
+            item.quantity -= 1;
+          } else {
+            item.quantity += 1;
+          }
+        }
+      });
+
+      console.log("New getSumOrMinus", getSumOrMinus);
+
+      localStorage.setItem("quantityProduct", JSON.stringify(getSumOrMinus));
+      setQuantityProduct(getSumOrMinus);
+    } else {
+      localStorage.setItem(
+        "quantityProduct",
+        JSON.stringify([{ name, quantity: 2 }])
+      );
+      setQuantityProduct([...quantityProduct, { name: name, quantity: 2 }]);
     }
   };
 
@@ -185,6 +249,9 @@ const useProducts = () => {
     createItemCart,
     sendProduct,
     loading,
+    quantityProductForPlusOrMinus,
+    quantityProduct,
+    setQuantityProduct,
   };
 };
 

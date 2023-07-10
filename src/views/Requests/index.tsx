@@ -20,18 +20,31 @@ import {
   BsFillArrowUpCircleFill,
   BsFillArrowDownCircleFill,
 } from "react-icons/bs";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   ProductsContext,
   ProductsContextData,
 } from "../../context/productsContext";
 
 export default function Request() {
-  const priceTotal = localStorage.getItem("total");
+  const priceTotal = localStorage.getItem("total") || 0;
 
-  const { addProducts, sendProduct } = useContext(
-    ProductsContext
-  ) as ProductsContextData;
+  const {
+    addProducts,
+    sendProduct,
+    quantityProductForPlusOrMinus,
+    quantityProduct,
+    setQuantityProduct,
+  } = useContext(ProductsContext) as ProductsContextData;
+
+  useEffect(() => {
+    const quantityLocal =
+      localStorage.getItem("quantityProduct") &&
+      JSON.parse(localStorage.getItem("quantityProduct") as string);
+    if (quantityProduct.length <= 0 && quantityLocal) {
+      setQuantityProduct(quantityLocal);
+    }
+  }, []);
 
   return (
     <Container>
@@ -42,7 +55,7 @@ export default function Request() {
         </ButtonBack>
         <BoxCard>
           {addProducts && addProducts.length > 0 ? (
-            addProducts.map((addProduct: any) => (
+            addProducts.map((addProduct: any, index: any) => (
               <Card key={addProduct._id}>
                 <BoxLeft>
                   <ImageBox>
@@ -56,9 +69,30 @@ export default function Request() {
                   </Details>
                 </BoxLeft>
                 <QuantityProduct>
-                  <BsFillArrowUpCircleFill color="FFC700" cursor="pointer" />
-                  1
-                  <BsFillArrowDownCircleFill color="FFC700" cursor="pointer" />
+                  <BsFillArrowUpCircleFill
+                    color="FFC700"
+                    cursor="pointer"
+                    onClick={() =>
+                      quantityProductForPlusOrMinus({
+                        name: addProduct.name,
+                        plusOrMinus: "+",
+                      })
+                    }
+                  />
+                  {quantityProduct.length > 0
+                    ? quantityProduct[index].name === addProduct.name &&
+                      quantityProduct[index].quantity
+                    : 1}
+                  <BsFillArrowDownCircleFill
+                    color="FFC700"
+                    cursor="pointer"
+                    onClick={() =>
+                      quantityProductForPlusOrMinus({
+                        name: addProduct.name,
+                        plusOrMinus: "-",
+                      })
+                    }
+                  />
                 </QuantityProduct>
               </Card>
             ))
@@ -69,7 +103,7 @@ export default function Request() {
 
         <SendRequest>
           <PriceTotal>
-            Total: R<span>$</span> <span>{priceTotal || 0}</span>
+            Total: R<span>$</span> <span>{priceTotal}</span>
           </PriceTotal>
           <BoxButton>
             <ButtonSend onClick={sendProduct}>Fazer Pedido</ButtonSend>
