@@ -47,7 +47,6 @@ const useProducts = () => {
     const { value } = e.target;
 
     if (value) {
-      setSelectedCard(null);
       const results = oldProducts.filter((product: any) => {
         return product.name.toLowerCase().startsWith(value.toLowerCase());
       });
@@ -55,6 +54,7 @@ const useProducts = () => {
     } else {
       setProducts(oldProducts);
     }
+    setSelectedCard(null);
   };
 
   const getProducts = async () => {
