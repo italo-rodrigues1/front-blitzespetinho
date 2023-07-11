@@ -204,29 +204,52 @@ const useProducts = () => {
     plusOrMinus: string;
     price: string;
   }) => {
-    const getSumOrMinus =
+    let getSumOrMinus =
       localStorage.getItem("quantityProduct") &&
       JSON.parse(localStorage.getItem("quantityProduct") as string);
 
     const getTotal: any =
       localStorage.getItem("total") && Number(localStorage.getItem("total"));
 
-    getSumOrMinus.filter((item: any) => {
-      if (item.name === name) {
-        if (plusOrMinus === "-") {
-          if (item.quantity > 1) {
-            item.quantity -= 1;
-            localStorage.setItem(
-              "total",
-              (getTotal - Number(price.replace(",", "."))) as any
-            );
+    let removeItem: number | string = "";
+
+    getSumOrMinus.filter(
+      (item: { name: string; quantity: number }, index: number) => {
+        if (item.name === name) {
+          if (plusOrMinus === "-") {
+            if (item.quantity === 1) {
+              removeItem = index;
+            } else {
+              item.quantity -= 1;
+              localStorage.setItem(
+                "total",
+                (getTotal - Number(price.replace(",", "."))) as any
+              );
+            }
+          } else {
+            item.quantity += 1;
+            localStorage.setItem("total", +price.replace(",", ".") + getTotal);
           }
-        } else {
-          item.quantity += 1;
-          localStorage.setItem("total", +price.replace(",", ".") + getTotal);
         }
       }
-    });
+    );
+    if (typeof removeItem === "number") {
+      getSumOrMinus = getSumOrMinus.filter((_: any, index: number) => {
+        return index !== removeItem;
+      });
+      const remmoveProduct = addProducts.filter((item, index) => {
+        if (removeItem === index) {
+          const total: string | null = localStorage.getItem("total");
+          const newTotal = Number(total) - Number(item.price.replace(",", "."));
+          localStorage.setItem("total", JSON.stringify(newTotal));
+        }
+        return index !== removeItem;
+      });
+
+      localStorage.setItem("item", JSON.stringify(remmoveProduct));
+      setAddProducts(remmoveProduct);
+    }
+
     localStorage.setItem("quantityProduct", JSON.stringify(getSumOrMinus));
     setQuantityProduct(getSumOrMinus);
   };
@@ -234,6 +257,15 @@ const useProducts = () => {
   useEffect(() => {
     if (localStorage.getItem("item") && addProducts.length <= 0) {
       setAddProducts(JSON.parse(localStorage.getItem("item") as string));
+    }
+    if (
+      localStorage.getItem("item") === "[]" &&
+      localStorage.getItem("total") === "0" &&
+      localStorage.getItem("quantityProduct") === "[]"
+    ) {
+      localStorage.removeItem("item");
+      localStorage.removeItem("total");
+      localStorage.removeItem("quantityProduct");
     }
   }, [addProducts]);
 
