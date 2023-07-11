@@ -39,6 +39,7 @@ const useProducts = () => {
   const [oldProducts, setOldProducts] = useState<[]>([]);
   const [category, setCategory] = useState<[]>([]);
   const [addProducts, setAddProducts] = useState<PropsItemCart[]>([]);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -47,6 +48,7 @@ const useProducts = () => {
     const { value } = e.target;
 
     if (value !== "") {
+      setSelectedCard(null);
       const results = updateProduct.filter((product: any) => {
         return product.name.toLowerCase().startsWith(value.toLowerCase());
       });
@@ -257,6 +259,8 @@ const useProducts = () => {
     quantityProductForPlusOrMinus,
     quantityProduct,
     setQuantityProduct,
+    selectedCard,
+    setSelectedCard,
   };
 };
 

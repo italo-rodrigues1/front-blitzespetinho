@@ -27,6 +27,8 @@ export type ProductsContextData = {
   quantityProductForPlusOrMinus: (addProducts: any) => void;
   quantityProduct: StateTypeQuantity[];
   setQuantityProduct: (quantityProduct: []) => void;
+  selectedCard: null;
+  setSelectedCard: (selectCard: number | null) => void;
 };
 
 export const ProductsContext = createContext<ProductsContextData | undefined>(
@@ -59,6 +61,8 @@ export const ProductsContextProvider = ({
     quantityProductForPlusOrMinus,
     quantityProduct,
     setQuantityProduct,
+    selectedCard,
+    setSelectedCard,
   } = useProducts() as ProductsContextData;
 
   return (
@@ -84,6 +88,8 @@ export const ProductsContextProvider = ({
         quantityProductForPlusOrMinus,
         quantityProduct,
         setQuantityProduct,
+        selectedCard,
+        setSelectedCard,
       }}
     >
       {children}

@@ -12,13 +12,11 @@ import { AuthContext, AuthContextData } from "../../context";
 
 export default function MenuCard() {
   const [openModal, setOpenModal] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
 
   const { authenticate } = useContext(AuthContext) as AuthContextData;
 
-  const { setProducts, category, oldProducts } = useContext(
-    ProductsContext
-  ) as ProductsContextData;
+  const { setProducts, category, oldProducts, selectedCard, setSelectedCard } =
+    useContext(ProductsContext) as ProductsContextData;
 
   const filterMenu = (value: string) => {
     const findValue: any = oldProducts.filter(
