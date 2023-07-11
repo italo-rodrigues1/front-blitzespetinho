@@ -8,6 +8,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-flow: wrap-reverse;
   gap: 10px;
 
   margin: 56px 10px 20px;
