@@ -44,12 +44,11 @@ const useProducts = () => {
   const [loading, setLoading] = useState(false);
 
   const filteredProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updateProduct = [...products];
     const { value } = e.target;
 
-    if (value !== "") {
+    if (value) {
       setSelectedCard(null);
-      const results = updateProduct.filter((product: any) => {
+      const results = oldProducts.filter((product: any) => {
         return product.name.toLowerCase().startsWith(value.toLowerCase());
       });
       setProducts(results as []);
