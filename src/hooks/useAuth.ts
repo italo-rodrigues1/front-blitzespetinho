@@ -11,16 +11,20 @@ const useAuth = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    try {
-      const res = await api.post("/api/user", {
-        email,
-        password,
-      });
-      localStorage.setItem("token", res.data.token);
-      setAuthenticate(true);
-      navigate("/");
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message);
+    if (email && password) {
+      try {
+        const res = await api.post("/api/user", {
+          email,
+          password,
+        });
+        localStorage.setItem("token", res.data.token);
+        setAuthenticate(true);
+        navigate("/");
+      } catch (err: any) {
+        toast.error(err?.response?.data?.message);
+      }
+    } else {
+      toast.error("Preencha os campos antes de enviar!");
     }
   };
 
