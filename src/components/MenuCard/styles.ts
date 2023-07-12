@@ -37,8 +37,8 @@ export const Box = styled.div<PropsBorder>`
   cursor: pointer;
 
   > img {
-    height: 55px;
-    width: 51px;
+    height: 45px;
+    width: 45px;
   }
 
   > svg {
