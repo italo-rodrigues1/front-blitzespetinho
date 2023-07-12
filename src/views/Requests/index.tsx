@@ -16,10 +16,8 @@ import {
   Title,
 } from "./styles";
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import {
-  BsFillArrowUpCircleFill,
-  BsFillArrowDownCircleFill,
-} from "react-icons/bs";
+import { BsPlusCircleFill,  } from "react-icons/bs";
+import { AiFillMinusCircle } from "react-icons/ai";
 import { useContext, useEffect } from "react";
 import {
   ProductsContext,
@@ -69,7 +67,7 @@ export default function Request() {
                   </Details>
                 </BoxLeft>
                 <QuantityProduct>
-                  <BsFillArrowUpCircleFill
+                  <BsPlusCircleFill
                     color="FFC700"
                     cursor="pointer"
                     onClick={() =>
@@ -84,7 +82,7 @@ export default function Request() {
                     ? quantityProduct[index]?.name === addProduct?.name &&
                       quantityProduct[index]?.quantity
                     : 1}
-                  <BsFillArrowDownCircleFill
+                  <AiFillMinusCircle
                     color="FFC700"
                     cursor="pointer"
                     onClick={() =>
