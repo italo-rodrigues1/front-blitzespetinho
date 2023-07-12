@@ -104,17 +104,17 @@ export const Details = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-items: left;
   justify-content: center;
   gap: 10px;
 
   padding-left: 5px;
 `;
 
-export const Title = styled.h1``;
+export const Title = styled.h1`
+  font-size: clamp(16px, 10vw, 25px);
+`;
 
 export const Price = styled.span`
-  /* font-size: 12px; */
   > span {
     color: #ffc700;
   }
